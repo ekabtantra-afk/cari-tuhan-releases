@@ -35,19 +35,17 @@ jobs:
         run: |
           set -euo pipefail
           test -n "$EXPO_TOKEN"
-          mkdir -p apk-download
-          cd apk-download
           npx --yes eas-cli@latest build:download --build-id "$BUILD_ID" --non-interactive
 
-          APK_PATH="$(find . -maxdepth 1 -type f -name '*.apk' | head -n 1)"
+          APK_PATH="$(find /tmp/runner/eas-cli-nodejs/eas-build-run-cache -type f -name '*.apk' 2>/dev/null | head -n 1)"
           if [ -z "$APK_PATH" ]; then
-            echo "No APK was downloaded."
-            ls -lah
+            echo "No APK was found in the EAS download cache."
+            find /tmp/runner/eas-cli-nodejs -maxdepth 3 -type f -print 2>/dev/null || true
             exit 1
           fi
 
-          mv "$APK_PATH" ../Cari-Tuhan.apk
-          cd ..
+          cp "$APK_PATH" "$GITHUB_WORKSPACE/Cari-Tuhan.apk"
+          cd "$GITHUB_WORKSPACE"
           ls -lh Cari-Tuhan.apk
           sha256sum Cari-Tuhan.apk > Cari-Tuhan.apk.sha256
 
