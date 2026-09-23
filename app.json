@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "Cari Tuhan Releases",
+    "slug": "cari-tuhan",
+    "owner": "ekabtantra",
+    "extra": {
+      "eas": {
+        "projectId": "123cec11-d869-4a87-9508-5708df04e300"
+      }
+    }
+  }
+}
